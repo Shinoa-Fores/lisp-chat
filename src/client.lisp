@@ -10,6 +10,7 @@
 
 (in-package :lisp-chat/client)
 
+
 (defvar *io-lock* (make-lock "io mutex")
   "I/O Mutex for avoid terminal race conditions")
 
@@ -20,11 +21,15 @@
 
 (defun get-user-input (username)
   "Get the user input by using readline"
-  (prog1 (cl-readline:readline :prompt (format nil "[~A]: " username)
-                               :erase-empty-line t
-                               :add-history t)
-    (with-mutex-held (*io-lock*)
-      (erase-last-line))))
+  (let ((prompt (format nil "[~A]: " username)))
+    #-swank (prog1 (cl-readline:readline :prompt prompt
+                                         :erase-empty-line t
+                                         :add-history t)
+              (with-mutex-held (*io-lock*)
+                (erase-last-line)))
+    #+swank (progn
+              (format t prompt)
+              ())))
 
 
 (defun send-message (message socket)
@@ -60,14 +65,16 @@
                  (equal message nil))
           return nil
         do (send-message message socket))
-  (exit))
+  (uiop:quit 0))
 
 
 (defun server-listener (socket)
   "Routine to check new messages coming from the server"
   (loop for message = (read-line (socket-stream socket))
         while (not (equal message "/quit"))
-        do (receive-message message)))
+        do (progn
+             #-swank (receive-message message)
+             #+swank (format t "~A~%" message))))
 
 (defun server-broadcast (socket)
   "Call server-listener treating exceptional cases"
