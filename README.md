@@ -4,8 +4,11 @@ An experimental chat irc-like written in Lisp, a fork of ryukinix/lisp-chat with
 
 # Installation
 
-`make -f server.mk`   #Build chat server
-`make -f client.mk`   #Build chat client
+Build chat server:
+`make -f server.mk`
+
+Build chat client:
+`make -f client.mk`  
 
 # Usage
 To start a server instance:
