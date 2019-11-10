@@ -1,4 +1,6 @@
-;; Common Lisp Script
+#|
+config.lisp
+|#
 
 (defpackage :lisp-chat/config
   (:use :cl)

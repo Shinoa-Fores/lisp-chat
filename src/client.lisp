@@ -1,5 +1,6 @@
-;; Common Lisp Script
-;; Manoel Vilela
+#|
+client.lisp
+|#
 
 (defpackage :lisp-chat/client
   (:use #:usocket
@@ -36,6 +37,7 @@
 ;; before printing messages from server, so I'm cleaning all the stuff
 ;; before print a new message, and restore again. Maybe there is a
 ;; better way for doing that.
+
 (defun receive-message (message)
   "Receive a message and print in the terminal carefully with IO race conditions"
   (with-lock-held (*io-lock*)
@@ -110,5 +112,5 @@
      #+allegro excl:interrupt-signal ()
       (uiop:quit 0))
     (usocket:connection-refused-error ()
-      (progn (write-line "Server seems offline. Run first the server.lisp.")
+      (progn (write-line "Server seems offline. Run server.lisp first.")
              (uiop:quit 1)))))

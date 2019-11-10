@@ -6,4 +6,4 @@ all: $(OBJECTS)
 
 
 $(OBJECTS): src/*.lisp
-	$(SBCL_CMD) build.lisp
+	$(SBCL_CMD) build/build-client.lisp

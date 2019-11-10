@@ -1,13 +1,11 @@
 ;; Common Lisp Script
-;; Manoel Vilela
 
 
 (asdf/defsystem:defsystem :lisp-chat/server
-  :author "Manoel Vilela"
+  :author "Shinoa-Fores"
   :description "An experimental chat irc-like: server"
-  :version "0.2.0"
-  :mailto "manoel_vilela@engineer.com"
-  :license "MIT"
+  :version "0.1.0"
+  :license "WTFPL"
   :depends-on ("usocket"
                "bordeaux-threads")
   :pathname "src"
@@ -15,10 +13,10 @@
                (:file "server" :depends-on ("config"))))
 
 (asdf/defsystem:defsystem :lisp-chat/client
-  :author "Manoel Vilela"
+  :author "Shinoa-Fores"
   :description "An experimental chat irc-like: client"
-  :version "0.2.0"
-  :license "MIT"
+  :version "0.1.0"
+  :license "WTFPL"
   :depends-on ("usocket"
                "cl-readline"
                "bordeaux-threads")
@@ -27,9 +25,9 @@
                (:file "client" :depends-on ("config"))))
 
 (asdf/defsystem:defsystem :lisp-chat
-  :author "Manoel Vilela"
+  :author "Shinoa-Fores"
   :description "An experimental chat irc-like"
-  :version "0.2.0"
-  :license "MIT"
+  :version "0.1.0"
+  :license "WTFPL"
   :depends-on ("lisp-chat/client"
                "lisp-chat/server"))

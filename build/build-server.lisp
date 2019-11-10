@@ -1,3 +1,7 @@
+#|
+build-server.lisp
+|#
+
 (defparameter *compression* 9 "Compression level of the executable binary.")
 (defparameter *debug* nil "Debug information")
 
@@ -24,7 +28,7 @@
 
 (defun main()
   (import-foreign-libraries)
-  (lisp-chat/client:main))
+  (lisp-chat/server:main))
 
 
 (eval-when (:execute)

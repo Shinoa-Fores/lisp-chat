@@ -1,4 +1,6 @@
-;; Common Lisp Script
+#|
+server.lisp
+|#
 
 (defpackage #:lisp-chat/server
   (:use #:usocket
@@ -20,7 +22,7 @@
   '("/users" "/help" "/log" "/quit" "/uptime" "/nick")
   "Allowed command names to be called by client user")
 (defparameter *clients* nil "List of clients")
-(defparameter *messages-stack* nil "Messages pending to be send by broadcasting")
+(defparameter *messages-stack* nil "Messages pending to be sent by broadcasting")
 (defparameter *messages-log* nil  "Messages log")
 (defparameter *server-nickname* "@server" "The server nickname")
 
@@ -77,8 +79,7 @@
 (defun formated-message (message)
   "The default message format of this server. MESSAGE is a string
    Changing this reflects all the layout from client/server.
-   Probably this would be the MFRP: Manoel Fucking Raw Protocol.
-   Because this we can still use netcat as client for lisp-chat."
+   Because of this we can still use netcat or tcp sockets as a client for lisp-chat."
   (format nil "|~a| [~a]: ~a"
           (message-time message)
           (message-from message)
@@ -252,7 +253,7 @@
                       (client-name client)
                       (client-address client))
         (push client *clients*))
-      (push-message "@server" (format nil "The user ~s joined the server" (client-name client)))
+      (push-message "@server" (format nil "~s joined the server" (client-name client)))
       (make-thread (lambda () (client-reader client))
                    :name (format nil "~a reader thread" (client-name client))))))
 
@@ -266,7 +267,7 @@ exceptions."
 
 (defun message-broadcast ()
   "This procedure is a general independent thread to run brodcasting
-   all the clients when a message is ping on this server"
+   to all the clients when a message is ping on this server"
   (loop when (wait-on-semaphore *message-semaphore*)
           do (let ((message (formated-message (pop *messages-stack*))))
                (push message *messages-log*)
