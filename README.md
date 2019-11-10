@@ -12,6 +12,7 @@ Build chat client:
 
 # Usage
 To start a server instance:
+
 `./lisp-chat`
 
 To connect to server:
