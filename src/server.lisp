@@ -1,5 +1,4 @@
 ;; Common Lisp Script
-;; Manoel Vilela
 
 (defpackage #:lisp-chat/server
   (:use #:usocket
@@ -160,7 +159,7 @@
                                  (equal (client-address c)
                                         (client-address client)))
                                *clients*)))
-  (push-message "@server" (format nil "The user ~s exited from the party :("
+  (push-message "@server" (format nil "The user ~s exited from the server("
                                   (client-name client)))
   (debug-format t "Deleted user ~a@~a~%"
                 (client-name client)
@@ -253,7 +252,7 @@
                       (client-name client)
                       (client-address client))
         (push client *clients*))
-      (push-message "@server" (format nil "The user ~s joined to the party!" (client-name client)))
+      (push-message "@server" (format nil "The user ~s joined the server" (client-name client)))
       (make-thread (lambda () (client-reader client))
                    :name (format nil "~a reader thread" (client-name client))))))
 
@@ -306,7 +305,7 @@ exceptions."
     (join-thread broadcast-thread)))
 
 (defun main (&key (host *host*) (port *port*))
-  "Well, this function run all the necessary shits."
+  "A function to do all the things."
   (let ((socket-server nil)
         (error-code 0))
     (unwind-protect
